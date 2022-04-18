@@ -274,7 +274,7 @@ type Grammar =
             let closed = new Stack<Gitem>(states)
             while (closed.Count > 0) do
                 let state = closed.Pop()
-                if not (state = null) then
+                if not <| obj.ReferenceEquals (state, null) then
                     let ri = state.Ri
                     let pi = state.Pi
                     let la = state.La
@@ -287,7 +287,7 @@ type Grammar =
                             for lafollow in lookaheads do
                                 let newItem = new Gitem(rulent, 0, lafollow)
                                 if not (states.Contains(newItem)) then
-                                    states.Add(newItem)
+                                    states.Add(newItem) |> ignore //ignore resulting value of adding to set
                                     closed.Push(newItem)
                             
                             //foreach lookahead
